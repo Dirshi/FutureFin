@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Leaderboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1e272e;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+
+    .back-button {
+      margin-bottom: 30px;
+    }
+
+    .back-button a {
+      background: #34495e;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+
+    .back-button a:hover {
+      background: #2c3e50;
+    }
+
+    table {
+      width: 80%;
+      max-width: 700px;
+      border-collapse: collapse;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      overflow: hidden;
+      animation: fadeIn 0.8s ease;
+    }
+
+    th, td {
+      padding: 16px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    th {
+      background: rgba(255,255,255,0.1);
+      color: #f1c40f;
+      font-size: 18px;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255,255,255,0.03);
+    }
+
+    tr:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      table, th, td {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🏆 Global Leaderboard</h1>
+
+  <div class="back-button">
+    <a href="choose.html">← Back to Menu</a>
+  </div>
+
+  <table id="leaderboardTable">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Game Type</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Scores will populate here -->
+    </tbody>
+  </table>
+
+  <!-- 🎉 Confetti burst -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    window.onload = () => {
+      confetti({
+        particleCount: 180,
+        spread: 100,
+        origin: { y: 0.3 }
+      });
+
+      fetch("http://localhost:3000/api/leaderboard")
+        .then(res => res.json())
+        .then(data => {
+          const tbody = document.querySelector("#leaderboardTable tbody");
+          if (!data.length) {
+            tbody.innerHTML = "<tr><td colspan='3'>No scores yet.</td></tr>";
+            return;
+          }
+
+          // Show highest scores first
+          data.sort((a, b) => b.score - a.score);
+
+          data.forEach(entry => {
+            const row = document.createElement("tr");
+            const displayScore = entry.type === "market" ? Number(entry.score).toFixed(2) : entry.score;
+            row.innerHTML = `
+              <td>${entry.username || "Anonymous"}</td>
+              <td>${entry.type === "simulation" ? "🧠 Simulation" : "📈 Market"}</td>
+              <td>${displayScore}</td>
+            `;
+            tbody.appendChild(row);
+          });
+        });
+    };
+  </script>
+</body>
+</html>

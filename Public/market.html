@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Market Simulator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('Backdrop.jpg') no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+      color: white;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+      color: #fff;
+      text-shadow: 0 0 6px rgba(0,0,0,0.4);
+    }
+
+    .top-buttons {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .top-buttons a {
+      margin: 0 10px;
+      background: #34495e;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+      display: inline-block;
+    }
+
+    .top-buttons a:hover {
+      background: #2c3e50;
+    }
+
+    .top-buttons a:last-child {
+      background: #f39c12;
+    }
+
+    .top-buttons a:last-child:hover {
+      background: #e67e22;
+    }
+
+    .layout {
+      display: flex;
+      gap: 30px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .panel {
+      flex: 1;
+      padding: 20px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.2);
+      min-width: 280px;
+    }
+
+    .panel h2 {
+      margin-bottom: 15px;
+      color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 6px;
+    }
+
+    .asset {
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .asset button {
+      background: #2ecc71;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .asset button:hover {
+      background: #27ae60;
+    }
+
+    #news {
+      font-style: italic;
+      color: #f1c40f;
+      margin-bottom: 15px;
+    }
+
+    .badge {
+      margin-top: 10px;
+      background: gold;
+      color: black;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    #history {
+      font-size: 14px;
+      margin-top: 15px;
+      color: #ccc;
+    }
+
+    #totalValue {
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="container">
+    <div class="top-buttons">
+      <a href="choose.html">← Back to Menu</a>
+      <a href="leaderboard.html">🏆 View Leaderboard</a>
+    </div>
+
+    <h1>📈 Market Simulator</h1>
+
+    <div class="layout">
+      <div class="panel">
+        <h2>📰 Market News</h2>
+        <div id="news">Loading news...</div>
+        <button onclick="reactToNews()">📣 React to News</button>
+
+        <h2>💼 Available Assets</h2>
+        <div id="assets">Loading assets...</div>
+      </div>
+
+      <div class="panel">
+        <h2>📊 Your Portfolio</h2>
+        <div id="totalValue">Total Value: $0</div>
+        <div id="portfolio">No assets yet.</div>
+        <div id="badges"></div>
+
+        <h3>🧾 Trade History</h3>
+        <div id="history">No trades yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔗 JavaScript -->
+  <script src="market.js"></script>
+</body>
+</html>

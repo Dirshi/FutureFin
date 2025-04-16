@@ -1,0 +1,7 @@
+[
+  { "name": "BitCore Coin", "price": 320, "change": -3 },
+  { "name": "AI Insight Fund", "price": 240, "change": 6 },
+  { "name": "GreenTech ETF", "price": 150, "change": 2 },
+  { "name": "SustainCorp", "price": 130, "change": 1 },
+  { "name": "TechX Inc.", "price": 280, "change": 4 }
+]
